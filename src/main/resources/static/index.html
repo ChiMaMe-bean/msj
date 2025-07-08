@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>美食节助力</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', sans-serif;
+        }
+
+        body {
+            background: #fff5e6;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #e67e22;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            position: relative;
+        }
+
+        h1::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 3px;
+            background: #e67e22;
+            margin: 0.8rem auto;
+        }
+
+        .input-group {
+            margin: 1.5rem 0;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 20px;
+            border: 2px solid #eee;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #e67e22;
+        }
+
+        input::placeholder {
+            color: #999;
+        }
+
+        button {
+            background: #e67e22;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(230,126,34,0.3);
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>美食节助力</h1>
+    <div class="input-group">
+        <input type="text"
+               placeholder="请输入助力码"
+               class="code-input"
+               maxlength="12">
+    </div>
+    <button onclick="submitCode()">立即助力</button>
+</div>
+
+<script>
+    function submitCode() {
+        const code = $('.code-input').val().trim().toUpperCase();
+
+        if (!code) {
+            alert('请输入有效的助力码');
+            return;
+        }
+
+        // 这里添加后端请求逻辑
+        $.ajax({
+            url: '/api/help',
+            type: 'POST',
+            data: { code: code },
+            success: function(res) {
+                alert(res.message);
+                if(res.success) {
+                    $('.code-input').val('');
+                }
+            },
+            error: function(xhr) {
+                alert('请求失败: ' + xhr.statusText);
+            }
+        });
+    }
+</script>
+</body>
+</html>
